@@ -24,18 +24,18 @@ for i in $(cat env-setups-details.txt); do
         echo "deployment started..."
         ## copy conf files
         echo "copy files to server"
-        scp StrictHostKeyChecking=no $i.* ubuntu@54.197.66.70:/tmp/
+        scp -r -o StrictHostKeyChecking=no $i.* ubuntu@54.197.66.70:/tmp/
         ## create document root directory
         echo "create doc root dir on server"
-        ssh StrictHostKeyChecking=no -t ubuntu@54.197.66.70 sudo mkdir /var/www/html/$i
+        ssh -T -o StrictHostKeyChecking=no ubuntu@54.197.66.70 sudo mkdir /var/www/html/$i
         ## move conf and web file to their location
 
         echo "move conf and html file"
-        ssh StrictHostKeyChecking=no -t ubuntu@54.197.66.70 sudo mv /tmp/$i.conf /etc/apache2/sites-enabled/$i.conf
-        ssh StrictHostKeyChecking=no -t ubuntu@54.197.66.70 sudo mv /tmp/$i.html /var/www/html/$i/index.html
+        ssh -T -o StrictHostKeyChecking=no ubuntu@54.197.66.70 sudo mv /tmp/$i.conf /etc/apache2/sites-enabled/$i.conf
+        ssh StrictHostKeyChecking=no  ubuntu@54.197.66.70 sudo mv /tmp/$i.html /var/www/html/$i/index.html
         ## restart apache 
         echo "reload apache"
-        ssh StrictHostKeyChecking=no -t ubuntu@54.197.66.70 sudo systemctl reload apache2
+        ssh -T -o StrictHostKeyChecking=no ubuntu@54.197.66.70 sudo systemctl reload apache2
         # If any of the setup steps fail, set the success flag to false
         # Example: Add additional error checks as needed
         # if [ $? -ne 0 ]; then
