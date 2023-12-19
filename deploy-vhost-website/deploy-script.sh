@@ -32,7 +32,7 @@ for i in $(cat env-setups-details.txt); do
 
         echo "move conf and html file"
         ssh -T -o StrictHostKeyChecking=no ubuntu@54.197.66.70 sudo mv /tmp/$i.conf /etc/apache2/sites-enabled/$i.conf
-        ssh StrictHostKeyChecking=no  ubuntu@54.197.66.70 sudo mv /tmp/$i.html /var/www/html/$i/index.html
+        ssh -T -o StrictHostKeyChecking=no  ubuntu@54.197.66.70 sudo mv /tmp/$i.html /var/www/html/$i/index.html
         ## restart apache 
         echo "reload apache"
         ssh -T -o StrictHostKeyChecking=no ubuntu@54.197.66.70 sudo systemctl reload apache2
